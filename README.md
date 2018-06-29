@@ -1,37 +1,34 @@
-## Welcome to GitHub Pages
+# Hash unload tool
+ПО выгружающая хеши пользователей домена Windows Server 2003/08
 
-You can use the [editor on GitHub](https://github.com/cgnuses/hashlist/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Описание предметной области
+Данное ПО получает доступ при помощи легальных API Microsoft к структуре данных Active Directory.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Контроллер домена 2003/08 для хранения учётных данных пользователей использует встрроенные механизмы, имеющее внутреннее название Jet Blue.
+До 2005 года данная технология была закрытой и использовалась для хранения состояний различного встроенного ПО Microsoft.
+Данное решение использовалось Microsoft начиная с версий Windows XP 64bit/Win2K, и продолжает использоваться на данный момент в текущих продуктах Microsoft, таких как Active Directory и Exchange 2000.
+В конце 2005 года Microsoft приняло решение опубликовать Jet Blue, посчитав что данное решение достаточно полезно для сторонних разработчиков и опубликовала данный продукт под новым брэндом "Extensible Storage Engine".
+Необходимые, для работы с данным решением(ESE), заголовочные файлы и библиотеки располагаются в Windows Server 2003 SP1 Platform SDK.
+Весь функционал собран в едином бинарном файле esent.dll и доступен данный интерфейс начиная с Win2K.
 
-### Markdown
+ESE – это технология индексированного и последовательного доступа: "indexed and sequential access method" (ISAM). Её основное назначение заключается работа с таблицами при использовании индексной и курсорной навигации (indexed or sequential cursor navigation). Предоставлении механизма хранения в режиме пользователя(UserMode), для управления данными, размещёнными в плоском бинарном файле, доступ к которому осуществляется через Win32 API файловой системы.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Как ранее упоминалось весь функционал сосредоточен в одной DLL (esent.dll), которая загружается в адресное пространство клиентского приложения. Прототипы всех функций/сообщеня о ошибках и т.д. расположены в заголовочном файле (esent.h)
 
-```markdown
-Syntax highlighted code block
+Данные учётных записей храняться в базе NTDS.dit пароли учётных записий захешированны по алгоритму [LM/NTLM](https://ru.wikipedia.org/wiki/NTLMv2). Для получения более детальной информации нужно искать более надёжные источники.
 
-# Header 1
-## Header 2
-### Header 3
+В с вязи с малыми сроками на реализацию проекта, выбор средств разработки и формирование тестового стенда, производилась по линии наименьшего затрата ресурса (ЧЧ - Человеко Часы).
 
-- Bulleted
-- List
+## Описание песочницы.
+- В качестве тестовой платформы мы возьмём [Windows Server 2008 R2](https://www.microsoft.com/ru-ru/SoftMicrosoft/server2008.aspx). 
+- В качестве компилятора будем использовать [Mingw-w64](https://sourceforge.net/projects/mingw-w64/files/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/). Данный компилятор предполагает использование gcc в среде windows. В отличии от стандартного Mingw, данная ветка предлагает полный доступ к функционалу Win32 API включая поддержку ESE(JetBlue).
+- В качестве файлового менеджера используем утилиту [Far](https://www.farmanager.com/download.php?l=ru)
+- Для редактирования исходного кода [Sublime Text 3](https://www.sublimetext.com/3)
+- Для доступа к репозиторию исходного кода нам понадобиться [Git](https://git-scm.com/download/win)
 
-1. Numbered
-2. List
+## Описание стратегии разработки.
 
-**Bold** and _Italic_ and `Code` text
+
 
 [Link](url) and ![Image](src)
-```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/cgnuses/hashlist/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
