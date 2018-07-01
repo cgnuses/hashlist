@@ -1,0 +1,1 @@
+@gcc src\hashlist.c -Iconfig -Iinclude -o bin\hashlist -lesent
