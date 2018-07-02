@@ -47,9 +47,25 @@ JetCreateInstance создаёт экземпляр Jet движка
 - online defragmentation off
 - max temporary table is 7
 - setup temporary path
+Для установки параметров соеденения используем JetSetSystemParameter
 
-И для инициализации движка воспользуемся JetInit
+И для инициализации движка воспользуемся JetInit.
+После успешного создания сессии Необходимо подключиться к интересующим нас данным которые храняться в файле NTDS.dit
+Для этого мы будем использовать функции JetAttachDatabase и JetOpenDatabase.
 
 ## Подключение NTDS.dit и работа с ним
 Для работы с БД NTDS.dit необходимо произвести его подключение и в последствии его открытие.
 JetAttachDatabase и JetOpenDatabase
+
+
+
+Интересующая нас информация храниться в таблице datatable
+Хеши паролей находятся в колонках "ATTk589914" для NT-Хеша и "ATTk589879" для LM.
+Имя пользователя в колонке "ATTm590045"
+
+Используемые документы:
+http://www.dataforensics.org/microsoft-active-directory/
+https://msdn.microsoft.com/en-us/library/5c485eff-4329-4dc1-aa45-fb66e6554792.aspx
+https://msdn.microsoft.com/en-us/library/gg269245.aspx
+https://blogs.technet.microsoft.com/askds/2017/12/04/ese-deep-dive-part-1-the-anatomy-of-an-ese-database/
+https://github.com/Microsoft/ManagedEsent/tree/master/Documentation
