@@ -64,8 +64,8 @@ JetAttachDatabase и JetOpenDatabase
 Имя пользователя в колонке "ATTm590045"
 
 Используемые документы:
-[Первичное описание структуры](http://www.dataforensics.org/microsoft-active-directory/)
-[Вводная в технологию](https://msdn.microsoft.com/en-us/library/5c485eff-4329-4dc1-aa45-fb66e6554792.aspx)
-[Референс от MS по ESE](https://msdn.microsoft.com/en-us/library/gg269245.aspx)
-[Описание работы с ESE](https://blogs.technet.microsoft.com/askds/2017/12/04/ese-deep-dive-part-1-the-anatomy-of-an-ese-database/)
-[Примеры от Microsoft по работе с ESE(Jet)Engine](https://github.com/Microsoft/ManagedEsent/tree/master/Documentation)
+- [Первичное описание структуры](http://www.dataforensics.org/microsoft-active-directory/)
+- [Вводная в технологию](https://msdn.microsoft.com/en-us/library/5c485eff-4329-4dc1-aa45-fb66e6554792.aspx)
+- [Референс от MS по ESE](https://msdn.microsoft.com/en-us/library/gg269245.aspx)
+- [Описание работы с ESE](https://blogs.technet.microsoft.com/askds/2017/12/04/ese-deep-dive-part-1-the-anatomy-of-an-ese-database/)
+- [Примеры от Microsoft по работе с ESE(Jet)Engine](https://github.com/Microsoft/ManagedEsent/tree/master/Documentation)
