@@ -90,6 +90,12 @@ int main(int argc, char *argv[]) {
 		"Can`t attach NTDS.dit database."
 	);
 
+	/* Open NTDS.dit */
+	ese_guard(
+		JetOpenDatabase(jet_id, "NTDS.dit", NULL, &data, JET_bitDbReadOnly),
+		"Can`t open database NTDS.dit."
+	);
+
 	ese_guard_end(1);
 
 	debug_out("Task ended.\n");
