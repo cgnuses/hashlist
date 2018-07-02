@@ -7,7 +7,11 @@
 #include "debug.h"
 #include "ese_guard.h"
 
-int main(int argc, char *argv[]) {
+
+static JET_INSTANCE jet = JET_instanceNil;
+static JET_SESID jet_id = JET_sesidNil;
+
+int init_jet_engine(char *instance_name) {
 
 	/* Get current temporary path */
 	TCHAR temp_path[MAX_PATH];
@@ -18,12 +22,7 @@ int main(int argc, char *argv[]) {
 		return(-100);
 	}
 
-	debug_out("Try init Jet engine.\n");
-
 	ese_guard_start();
-
-	JET_INSTANCE jet = JET_instanceNil;
-	JET_SESID jet_id = JET_sesidNil;
 
 	/* Setup database pagesize for NTDS.DIT size 0x2000 */
 	ese_guard(
@@ -31,7 +30,7 @@ int main(int argc, char *argv[]) {
 		"Can`t Setup database page size"
 	);
 
-	ese_guard(JetCreateInstance(&jet, argv[0]), "Can`t create Jet instance.");
+	ese_guard(JetCreateInstance(&jet, instance_name), "Can`t create Jet instance.");
 
 	/* Setup the recovery option is "off" */
 	ese_guard(
@@ -50,12 +49,11 @@ int main(int argc, char *argv[]) {
 		JetSetSystemParameter(&jet, jet_id, JET_paramMaxTemporaryTables, 7, NULL),
 		"Can`t Setup recovery option to 'off'."
 	);
-
-#if 0
+#if 1
 	/* Setup temp path to engine Don`t use for Russian User Name*/
 	debug_out("Setup temp path for Jet engine: %s\n", temp_path);
 	ese_guard(
-		JetSetSystemParameter(&jet, jet_id, JET_paramTempPath, 0, temp_path),
+		JetSetSystemParameter(&jet, jet_id, JET_paramTempPath, 0, "c:\\1"),
 		"Can`t Setup temporery folder to $TEMP."
 	);
 #endif
@@ -68,13 +66,32 @@ int main(int argc, char *argv[]) {
 	ese_guard(JetBeginSession(jet, &jet_id, 0, 0), "Can`t Begin Jet session.");
 
 	debug_out("Session is started.\n");
+	ese_guard_end(0);
+
+	return 0;
+}
+
+int main(int argc, char *argv[]) {
+
+	debug_out("Try init Jet engine.\n");
+
+	int ret = init_jet_engine("instance");
+	if(ret) {
+		error_out("\n[%d] Can`t init Jet...\n", ret);
+		JetTerm(0);
+		return ret;
+	}
+
+	ese_guard_start();
 
 	/* Attach to a NTDS.dit */
-//	ese_guard(JetAttachDatabase(jet_id, "NTDS.dit", 1), "Can`t attach NTDS.dit database.");
+	ese_guard(
+		JetAttachDatabase(jet_id, "NTDS.dit", JET_bitDbReadOnly), 
+		"Can`t attach NTDS.dit database."
+	);
 
+	ese_guard_end(1);
 
-
-	ese_guard_end(0);
 	debug_out("Task ended.\n");
 
 	return 0;
